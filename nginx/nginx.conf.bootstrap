@@ -1,0 +1,20 @@
+# TEMPORARY file — used only once, for the very first certbot run, since
+# nginx.conf references an SSL certificate that doesn't exist yet on a brand
+# new server. See README.md "VPS deployment" section, step "Get your first
+# SSL certificate". After that succeeds, switch back to nginx.conf and never
+# use this file again (it's not referenced by docker-compose.yml directly —
+# you temporarily copy it over nginx.conf for the bootstrap step).
+
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 200 "TechArcade — waiting for SSL certificate setup.";
+        add_header Content-Type text/plain;
+    }
+}

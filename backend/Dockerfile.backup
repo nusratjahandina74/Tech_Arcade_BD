@@ -1,0 +1,21 @@
+# Separate from the main backend image on purpose: mongodump/MongoDB Database
+# Tools add real weight, and the API server should never need them at runtime.
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+
+# Install MongoDB Database Tools (provides `mongodump`) from MongoDB's official repo
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl gnupg ca-certificates \
+    && curl -fsSL https://pgp.mongodb.com/server-7.0.asc | gpg --dearmor -o /usr/share/keyrings/mongodb.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/mongodb.gpg] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/7.0 main" \
+       > /etc/apt/sources.list.d/mongodb-org.list \
+    && apt-get update && apt-get install -y --no-install-recommends mongodb-database-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+CMD ["node", "cron.js"]

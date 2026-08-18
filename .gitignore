@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+.next/
+*.log
+.DS_Store
+nginx/certbot/conf/
+nginx/certbot/www/

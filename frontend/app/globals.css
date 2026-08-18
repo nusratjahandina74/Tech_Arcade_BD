@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 98%;
+    --foreground: 222 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 10%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 34 70% 50%;
+    --primary: 28 72% 46%;
+    --primary-foreground: 40 30% 98%;
+    --secondary: 220 20% 95%;
+    --secondary-foreground: 222 30% 15%;
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 10% 42%;
+    --accent: 220 20% 94%;
+    --accent-foreground: 222 30% 15%;
+    --destructive: 6 62% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 180 45% 30%;
+    --success-foreground: 0 0% 100%;
+    --radius: 0.6rem;
+  }
+
+  .dark {
+    --background: 224 33% 7%;
+    --foreground: 45 20% 94%;
+    --card: 222 32% 11%;
+    --card-foreground: 45 20% 94%;
+    --border: 222 24% 21%;
+    --input: 222 24% 21%;
+    --ring: 34 70% 55%;
+    --primary: 34 70% 58%;
+    --primary-foreground: 224 33% 9%;
+    --secondary: 222 24% 16%;
+    --secondary-foreground: 45 20% 94%;
+    --muted: 222 24% 16%;
+    --muted-foreground: 220 12% 65%;
+    --accent: 222 24% 18%;
+    --accent-foreground: 45 20% 94%;
+    --destructive: 6 62% 61%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 180 38% 45%;
+    --success-foreground: 224 33% 9%;
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground font-sans antialiased transition-colors duration-200;
+}
+
+h1, h2, h3, h4, .font-display {
+  @apply tracking-tight;
+}
+
+/* Signature element: a circuit-trace divider — a horizontal line with a
+   node (like a solder pad) that marks section breaks, echoing a PCB trace. */
+.trace-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+  margin: 3rem 0;
+}
+.trace-divider::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: hsl(var(--primary));
+}
+
+.chip-card {
+  @apply bg-card border border-border rounded-md relative;
+}
+.chip-card::before,
+.chip-card::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: hsl(var(--border));
+  top: 16px;
+}
+.chip-card::before { left: -10px; }
+.chip-card::after { right: -10px; }
+
+/* Keyboard focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

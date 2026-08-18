@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    expose:
+      - "5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Next.js bakes NEXT_PUBLIC_* vars in at build time, so they're passed
+        # here rather than via env_file (which only affects runtime).
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+        NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+    restart: unless-stopped
+    expose:
+      - "3000"
+
+  # Optional — only starts doing anything once AWS_* / S3_BACKUP_BUCKET are
+  # set in backend/.env. Safe to remove this service entirely if you'd rather
+  # rely on MongoDB Atlas's own backup/replica-set durability alone.
+  backup:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backup
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+      - frontend
