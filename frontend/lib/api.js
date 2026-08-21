@@ -1,5 +1,6 @@
-const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-
+const BASE = process.env.NEXT_PUBLIC_API_URL 
+  ? `${process.env.NEXT_PUBLIC_API_URL}/api` 
+  : "http://localhost:5000/api";
 function buildQuery(params) {
   if (!params) return "";
   const entries = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== "");
