@@ -37,23 +37,7 @@ const otpRequestLimiter = rateLimit({
   message: { message: "Too many OTP requests for this number. Please wait a few minutes." },
 });
 
-function accessCookieOptions() {
-  return {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", 
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    maxAge: 15 * 60 * 1000, 
-  };
-}
 
-function refreshCookieOptions() {
-  return {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    maxAge: 30 * 24 * 60 * 60 * 1000, 
-  };
-}
 async function issueSession(res, user, userAgent) {
   const accessToken = signAccessToken(user);
   const { raw, tokenHash, expiresAt } = signRefreshToken();

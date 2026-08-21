@@ -32,17 +32,26 @@ const isProd = process.env.NODE_ENV === "production";
 // fine with Lax and doesn't require HTTPS.
 const baseCookieOptions = {
   httpOnly: true,
-  secure: isProd,
-  sameSite: isProd ? "none" : "lax",
-  path: "/",
+  secure: process.env.NODE_ENV === "production", 
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 };
 
 function accessCookieOptions() {
-  return { ...baseCookieOptions, maxAge: 15 * 60 * 1000 };
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 15 * 60 * 1000, 
+  };
 }
 
 function refreshCookieOptions() {
-  return { ...baseCookieOptions, maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000, path: "/api/auth" };
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 30 * 24 * 60 * 60 * 1000, 
+  };
 }
 
 module.exports = {
