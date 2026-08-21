@@ -20,7 +20,7 @@ export default function Footer() {
       </div>
       <div className="trace-divider max-w-6xl mx-auto !my-0" />
       <p className="text-center text-xs text-muted-foreground/70 py-5">
-        © {new Date().getFullYear()} TechArcade. All rights reserved.
+        © {new Date().getFullYear()} Tech Arcade BD. All rights reserved.
       </p>
     </footer>
   );

@@ -18,7 +18,7 @@ function emailShell({ preheader, bodyHtml }) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TechArcade</title>
+  <title>Tech Arcade BD</title>
 </head>
 <body style="margin:0;padding:0;background-color:${BRAND.paper};font-family:Arial,Helvetica,sans-serif;">
   <!-- Preheader text (hidden preview shown in inbox list) -->
@@ -30,7 +30,7 @@ function emailShell({ preheader, bodyHtml }) {
         <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#ffffff;border-radius:10px;overflow:hidden;border:1px solid ${BRAND.border};">
           <tr>
             <td style="background-color:${BRAND.ink};padding:24px 32px;">
-              <span style="color:${BRAND.copper};font-size:20px;font-weight:bold;letter-spacing:0.3px;">▣ TechArcade</span>
+              <span style="color:${BRAND.copper};font-size:20px;font-weight:bold;letter-spacing:0.3px;">Tech Arcade BD</span>
             </td>
           </tr>
           <tr>

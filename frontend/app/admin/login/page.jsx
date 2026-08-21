@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-5">
       <div className="max-w-sm w-full">
-        <h1 className="text-xl font-700 mb-6 text-center font-display">▣ TechArcade admin</h1>
+        <h1 className="text-xl font-700 mb-6 text-center font-display">Tech Arcade BD admin</h1>
         <form onSubmit={handleSubmit} className="grid gap-3">
           <Input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input type="password" placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />

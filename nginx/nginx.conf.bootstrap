@@ -14,7 +14,7 @@ server {
     }
 
     location / {
-        return 200 "TechArcade — waiting for SSL certificate setup.";
+        return 200 "Tech Arcade BD — waiting for SSL certificate setup.";
         add_header Content-Type text/plain;
     }
 }
