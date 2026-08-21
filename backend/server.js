@@ -68,7 +68,9 @@ app.use("/api/support", supportRoutes);
 app.use("/api/landing-pages", landingPageRoutes);
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
-
+app.get('/', (req, res) => {
+  res.send('Tech Arcade BD Backend is running successfully!');
+});
 // Fallback 404 for unknown API routes
 app.use("/api", (req, res) => res.status(404).json({ message: "Not found." }));
 

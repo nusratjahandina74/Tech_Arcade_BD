@@ -9,9 +9,12 @@ const sans = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"], v
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-mono" });
 
 export const metadata = {
-  title: "TechArcade — Electronics & Gadgets, Bangladesh",
+  title: "Tech Arcade BD",
   description:
     "Genuine electronics and gadgets, delivered across Bangladesh. Cash on delivery and secure bKash/Nagad payment available.",
+  icons: {
+    icon: "/icon.png", 
+  },
 };
 
 export default function RootLayout({ children }) {

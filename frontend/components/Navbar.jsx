@@ -8,7 +8,7 @@ import { useCart } from "../context/CartContext.jsx";
 import { useUser } from "../context/UserContext.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
 import { cn } from "../lib/utils.js";
-
+import Image from "next/image";
 export default function Navbar() {
   const { itemCount, openCart } = useCart();
   const { user, loading } = useUser();
@@ -24,8 +24,10 @@ export default function Navbar() {
     <header className="border-b border-border sticky top-0 z-40 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         <Link href="/" className="font-display font-800 text-lg flex items-center gap-2">
-          <span className="text-primary">▣</span>
-          <span>TechArcade</span>
+          <div className="flex items-center gap-2">
+            <Image src="/icon.png" alt="Tech Arcade BD" width={35} height={35} className="object-contain" />
+            <span className="font-bold text-lg">Tech Arcade BD</span>
+          </div>
         </Link>
         <nav className="hidden sm:flex items-center gap-7">
           <Link href="/" className={linkClass("/", true)}>Home</Link>

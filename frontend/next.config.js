@@ -4,11 +4,16 @@ const nextConfig = {
   // needed at runtime) — this is what keeps the Docker image small and makes
   // `docker build` reproducible regardless of which host it later runs on.
   // output: "standalone",
-  // images: {
-  //   remotePatterns: [
-  //     { protocol: "https", hostname: "res.cloudinary.com" },
-  //   ],
-  // },
+  
+  images: {
+    remotePatterns: [
+      { 
+        protocol: "https", 
+        hostname: "res.cloudinary.com",
+        pathname: "/**", 
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
