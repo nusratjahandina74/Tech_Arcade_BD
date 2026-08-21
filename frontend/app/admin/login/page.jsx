@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import api from "../../../lib/api.js";
 import { Button } from "../../../components/ui/button.jsx";
 import { Input } from "../../../components/ui/input.jsx";
+import { useUser } from "../../../context/UserContext.jsx"; 
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+  const { setUser, refresh } = useUser(); 
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,12 +22,22 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       const res = await api.post("/auth/login", { email, password });
+      
       if (!["admin", "manager", "delivery"].includes(res.data.user?.role)) {
         await api.post("/auth/logout");
         setError("This account doesn't have admin access.");
         return;
       }
+
+      if (res.data?.user) {
+        setUser(res.data.user);
+      }
+
+      await refresh();
+
+
       router.push(res.data.user.role === "delivery" ? "/admin/dashboard/delivery" : "/admin/dashboard/overview");
+      
     } catch (err) {
       setError(err.response?.data?.message || "Login failed.");
     } finally {

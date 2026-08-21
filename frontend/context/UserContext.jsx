@@ -12,8 +12,13 @@ export function UserProvider({ children }) {
   const refresh = useCallback(async () => {
     try {
       const res = await api.get("/auth/me");
-      setUser(res.data.user);
-    } catch {
+      if (res.data && res.data.user) {
+        setUser(res.data.user);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      console.log("Auth check skipped: No active session found.");
       setUser(null);
     } finally {
       setLoading(false);
@@ -21,7 +26,11 @@ export function UserProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    refresh();
+    if (typeof window !== "undefined") {
+      refresh();
+    } else {
+      setLoading(false);
+    }
   }, [refresh]);
 
   async function logout() {
@@ -33,7 +42,9 @@ export function UserProvider({ children }) {
   }
 
   return (
-    <UserContext.Provider value={{ user, loading, refresh, logout }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, loading, refresh, setUser, logout }}>
+      {children}
+    </UserContext.Provider>
   );
 }
 
