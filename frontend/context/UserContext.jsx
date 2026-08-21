@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import api from "../lib/api.js";
+import api from "../lib/api"; 
 
 const UserContext = createContext(null);
 
@@ -10,6 +10,12 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.get("/auth/me");
       if (res.data && res.data.user) {
@@ -36,6 +42,9 @@ export function UserProvider({ children }) {
   async function logout() {
     try {
       await api.post("/auth/logout");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token"); 
+      }
     } finally {
       setUser(null);
     }

@@ -11,9 +11,13 @@ function buildQuery(params) {
 
 async function rawFetch(method, path, { params, data, cache, next } = {}) {
   const url = `${BASE}${path}${buildQuery(params)}`;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   return fetch(url, {
     method,
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      ...(token ? { "Authorization": `Bearer ${token}` } : {}) 
+    },
     body: data !== undefined ? JSON.stringify(data) : undefined,
     credentials: "include",
     ...(typeof window === "undefined" ? { cache: cache ?? "no-store", next } : {}),

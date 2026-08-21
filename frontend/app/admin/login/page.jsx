@@ -22,7 +22,9 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       const res = await api.post("/auth/login", { email, password });
-      
+      if (res.data?.token) {
+        localStorage.setItem("token", res.data.token);
+      }
       if (!["admin", "manager", "delivery"].includes(res.data.user?.role)) {
         await api.post("/auth/logout");
         setError("This account doesn't have admin access.");
