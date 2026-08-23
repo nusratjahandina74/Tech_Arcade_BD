@@ -29,19 +29,31 @@ const app = express();
 
 // --- Security middleware ---
 app.use(helmet());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://tech-arcade-bd.vercel.app",
+  "https://tech-arcade-bd-frontend-52go1ae7a-nusratjahandina74s-projects.vercel.app" 
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Blocked by CORS Policy"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
   })
 );
 app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" })); // SSLCommerz posts form-encoded data
+app.use(express.urlencoded({ extended: true, limit: "1mb" })); 
 app.use(cookieParser());
-app.use(mongoSanitize()); // strips $ and . from user input to prevent NoSQL injection
+app.use(mongoSanitize()); 
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
-
-// General API rate limit (separate, stricter limit is applied on /auth/login)
 app.use(
   "/api",
   rateLimit({
