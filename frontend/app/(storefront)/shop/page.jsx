@@ -15,6 +15,7 @@ async function getProducts(params) {
 }
 
 export default async function ShopPage({ searchParams }) {
+  const params = await searchParams;
   const {
     search = "",
     category = "",
@@ -24,7 +25,7 @@ export default async function ShopPage({ searchParams }) {
     maxPrice = "",
     page = "1",
     featured = "",
-  } = searchParams || {};
+  } = params || {};
 
   const { products, pages } = await getProducts({ search, category, brand, warranty, minPrice, maxPrice, page, featured });
   const currentPage = Number(page) || 1;

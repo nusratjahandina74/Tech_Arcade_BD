@@ -15,7 +15,8 @@ async function getLandingPage(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const page = await getLandingPage(params.slug);
+  const { slug } = await params;
+  const page = await getLandingPage(slug);
   if (!page) return { title: "Page not found" };
   return {
     title: page.headline,
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function LandingPage({ params }) {
-  const page = await getLandingPage(params.slug);
+  const { slug } = await params;
+  const page = await getLandingPage(slug);
   if (!page) notFound();
 
   const product = page.product;

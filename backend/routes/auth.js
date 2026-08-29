@@ -74,7 +74,7 @@ router.post("/register", authLimiter, validateBody(registerSchema), async (req, 
 router.post("/otp/request", otpRequestLimiter, validateBody(requestOtpSchema), async (req, res) => {
   const { phone } = req.body;
 
-  const code = String(Math.floor(1000 + Math.random() * 9000)); // 4 digits
+  const code = String(Math.floor(1000 + crypto.randomInt() * 9000)); // 4 digits
   const codeHash = crypto.createHash("sha256").update(code).digest("hex");
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
